@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import matplotlib.pyplot as plt
 import pandas as pd
 
@@ -20,13 +21,29 @@ for tag in fp:
         precision.append(size_tp / cnt)
         recall.append(size_tp / size_fn)
         size_tp_after = size_tp
+
 plt.xlabel("Recall")
 plt.ylabel("Precision")
 plt.plot(recall, precision)
 plt.show()
 
-print(fp)
-print(fn)
-print(tp)
+# print(fp)
+# print(fn)
+# print(tp)
 # print(precision)
 # print(recall)
+
+s = 0
+for i in range(11):
+    n = i / 10
+    hoge = []
+    for j in range(len(recall)):
+        if recall[j] >= n:
+            hoge.append(precision[j])
+    if hoge != []:
+        s = s + max(hoge)
+ave_precision = s / 11
+print("11-point Ave Precision = ", ave_precision)
+
+r_precision = size_tp / size_fn
+print("R-Precision = ", r_precision)
