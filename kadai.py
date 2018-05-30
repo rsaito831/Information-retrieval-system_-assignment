@@ -2,26 +2,31 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 
-s_result = list(pd.read_csv("assignment18_01_RelDocs.csv"))
-c_answer = list(pd.read_csv("assignment18_01_AnsSet.csv"))
+fn = list(pd.read_csv("assignment18_01_RelDocs.csv"))
+fp = list(pd.read_csv("assignment18_01_AnsSet.csv"))
 
-s_result_set = set(s_result)
-c_answer_set = set(c_answer)
-match_list = list(s_result_set & c_answer_set)
-
-s_result_size = len(s_result)
-c_answer_size = len(c_answer)
-
-N = [i + 1 for i in range(len(match_list))]
-
+tp = []
 precision = []
 recall = []
-for i in N:
-    precision.append(i / s_result_size)
-    recall.append(i / c_answer_size)
-    print(i)
+size_fn = len(fn)
+size_tp_after = 0
+cnt = 0
+
+for tag in fp:
+    cnt = cnt + 1
+    tp += list(filter(lambda x: x == tag, fn))
+    size_tp = len(tp)
+    if size_tp_after != size_tp:
+        precision.append(size_tp / cnt)
+        recall.append(size_tp / size_fn)
+        size_tp_after = size_tp
+plt.xlabel("Recall")
+plt.ylabel("Precision")
 plt.plot(recall, precision)
 plt.show()
-print(precision)
-print("  ")
-print(recall)
+
+print(fp)
+print(fn)
+print(tp)
+# print(precision)
+# print(recall)
