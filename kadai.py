@@ -21,10 +21,15 @@ for tag in fp:
         precision.append(size_tp / cnt)
         recall.append(size_tp / size_fn)
         size_tp_after = size_tp
-
+precision.insert(0, 1.0)
+recall.insert(0, 0)
+precision.extend([0, 0, 0])
+recall.extend([0.9, 0.95, 1.0])
+plt.xlim([0, 1.0])
+plt.ylim([0, 1.0])
 plt.xlabel("Recall")
 plt.ylabel("Precision")
-plt.plot(recall, precision)
+plt.plot(recall, precision, lw=3)
 plt.show()
 
 # print(fp)
@@ -34,16 +39,13 @@ plt.show()
 # print(recall)
 
 s = 0
-for i in range(11):
-    n = i / 10
-    hoge = []
-    for j in range(len(recall)):
-        if recall[j] >= n:
-            hoge.append(precision[j])
-    if hoge != []:
-        s = s + max(hoge)
+j = 0
+for i in range(len(recall)):
+    if recall[i] == j / 10:
+        s += precision[i]
+        j = j + 1
+
 ave_precision = s / 11
 print("11-point Ave Precision = ", ave_precision)
-
-r_precision = size_tp / size_fn
+r_precision = size_tp / len(fp)
 print("R-Precision = ", r_precision)
